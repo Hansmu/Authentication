@@ -12,4 +12,4 @@ const userSchema = new Schema({
 const ModelClass = mongoose.model('user', userSchema); //Loads the schema into Mongoose.
 
 // Export the model
-module.expots = ModelClass;
+module.exports = ModelClass;

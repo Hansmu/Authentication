@@ -6,6 +6,10 @@ const bodyParser = require('body-parser'); // Used to parse incoming requests as
 const morgan = require('morgan'); // Morgan is a logging framework.
 const app = express(); //Create an instance with Express
 const router = require('./router');
+const mongoose = require('mongoose');
+
+//DB setup
+mongoose.connect('mongodb://localhost:auth/auth'); //Creates a new DB called auth inside your MongoDB.
 
 //App Setup
 app.use(morgan('combined')); //Middleware with app.use().
