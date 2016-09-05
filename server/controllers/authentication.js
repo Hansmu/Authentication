@@ -1,4 +1,11 @@
 const User = require('../models/user');
+const jwt = require('jwt-simple');
+const config = require('../config');
+
+function tokenForUser(user) {
+    const timestamp = new Date().getTime(); //iat means issued at time.
+    return jwt.encode({ sub: user.id, iat: timestamp }, config.secret); //JWT is a convention. As a convention they have a sub property. Sub being subject it means who is this token about.
+}
 
 exports.signup = function(req, res, next) {// Maps to a get request. First parameter is the route. If it's sent to /, then run our function
     // req represents the HTTP request. Res represents the response we send back. Next is for error handling.
@@ -33,9 +40,15 @@ exports.signup = function(req, res, next) {// Maps to a get request. First param
                 return next(err);
             }
 
-            res.json({ success: true });
+            // Respond to request indicating the user was created
+            res.json({ token: tokenForUser(user) });
         }); // Saves a new user
     }); // Callback once the search is complete
-
-    // Respond to request indicating the user was created
 }
+/**
+ * When singing up or signing in, give a token in exchange for an ID.
+ * User ID + our secret string = JSON Web Token (JWT)
+ *
+ * In the future when a user makes an authenticated request they should include their JWT
+ * JWT + our secret string = User ID
+ * **/
