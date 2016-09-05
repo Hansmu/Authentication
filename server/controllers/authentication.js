@@ -6,6 +6,10 @@ exports.signup = function(req, res, next) {// Maps to a get request. First param
     const email = req.body.email; // Anything contained in the post request (body)
     const password = req.body.password;
 
+    if (!email || !password) {
+        return res.status(422).send({ error: "You must provide email and password." });
+    }
+
     // See if a user with the given email exists
     User.findOne({ email: email }, function(err, existingUser) {
         if (err) {
