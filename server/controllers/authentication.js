@@ -7,6 +7,12 @@ function tokenForUser(user) {
     return jwt.encode({ sub: user.id, iat: timestamp }, config.secret); //JWT is a convention. As a convention they have a sub property. Sub being subject it means who is this token about.
 }
 
+exports.signin = function(req, res, next) {
+    //User has already had their email and password auth'd.
+    //We just need to give them a token.
+    res.send({ token: tokenForUser(req.user) });
+}
+
 exports.signup = function(req, res, next) {// Maps to a get request. First parameter is the route. If it's sent to /, then run our function
     // req represents the HTTP request. Res represents the response we send back. Next is for error handling.
 
